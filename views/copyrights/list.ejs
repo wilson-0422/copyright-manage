@@ -1,0 +1,47 @@
+<div class="page-header">
+  <h2>版权管理</h2>
+  <div>
+    <a href="/copyrights/register" class="btn btn-primary">登记版权</a>
+    <a href="/copyrights/trace" class="btn btn-outline">版权溯源</a>
+  </div>
+</div>
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>登记编号</th>
+      <th>作品名称</th>
+      <th>作品类型</th>
+      <th>状态</th>
+      <th>登记日期</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (copyrights && copyrights.length > 0) { %>
+      <% copyrights.forEach(function(c) { %>
+        <tr>
+          <td><%= c.id %></td>
+          <td><code><%= c.registration_number %></code></td>
+          <td><%= c.work_title || '-' %></td>
+          <td><span class="badge badge-type"><%= c.work_type || '-' %></span></td>
+          <td><span class="badge badge-status badge-<%= c.status %>"><%= c.status %></span></td>
+          <td><%= c.registration_date %></td>
+          <td class="actions">
+            <a href="/copyrights/<%= c.id %>" class="btn btn-sm">查看</a>
+            <% if (c.status === '待审核') { %>
+              <form action="/copyrights/<%= c.id %>/confirm" method="POST" style="display:inline">
+                <button type="submit" class="btn btn-sm btn-success">确权</button>
+              </form>
+              <form action="/copyrights/<%= c.id %>/reject" method="POST" style="display:inline">
+                <button type="submit" class="btn btn-sm btn-danger">驳回</button>
+              </form>
+            <% } %>
+          </td>
+        </tr>
+      <% }); %>
+    <% } else { %>
+      <tr><td colspan="7" class="empty-text">暂无版权记录</td></tr>
+    <% } %>
+  </tbody>
+</table>

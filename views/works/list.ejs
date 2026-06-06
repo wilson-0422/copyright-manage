@@ -1,0 +1,40 @@
+<div class="page-header">
+  <h2>作品管理</h2>
+  <a href="/works/create" class="btn btn-primary">新增作品</a>
+</div>
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>作品名称</th>
+      <th>类型</th>
+      <th>作者</th>
+      <th>状态</th>
+      <th>创建时间</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (works && works.length > 0) { %>
+      <% works.forEach(function(work) { %>
+        <tr>
+          <td><%= work.id %></td>
+          <td><a href="/works/<%= work.id %>"><%= work.title %></a></td>
+          <td><span class="badge badge-type"><%= work.type %></span></td>
+          <td><%= work.author_name || '-' %></td>
+          <td><span class="badge badge-status badge-<%= work.status %>"><%= work.status %></span></td>
+          <td><%= work.created_at %></td>
+          <td class="actions">
+            <a href="/works/<%= work.id %>" class="btn btn-sm">查看</a>
+            <a href="/works/<%= work.id %>/edit" class="btn btn-sm btn-warning">编辑</a>
+            <form action="/works/<%= work.id %>/delete" method="POST" style="display:inline" onsubmit="return confirm('确定要删除此作品吗？')">
+              <button type="submit" class="btn btn-sm btn-danger">删除</button>
+            </form>
+          </td>
+        </tr>
+      <% }); %>
+    <% } else { %>
+      <tr><td colspan="7" class="empty-text">暂无作品数据</td></tr>
+    <% } %>
+  </tbody>
+</table>

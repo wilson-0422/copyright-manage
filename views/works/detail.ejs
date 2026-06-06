@@ -1,0 +1,48 @@
+<div class="page-header">
+  <h2>作品详情</h2>
+  <a href="/works" class="btn btn-outline">返回列表</a>
+</div>
+<% if (work) { %>
+<div class="detail-card">
+  <div class="detail-row">
+    <span class="detail-label">作品ID</span>
+    <span class="detail-value"><%= work.id %></span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">作品名称</span>
+    <span class="detail-value"><%= work.title %></span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">作品类型</span>
+    <span class="detail-value"><span class="badge badge-type"><%= work.type %></span></span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">作者</span>
+    <span class="detail-value"><%= work.author_name || '-' %></span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">状态</span>
+    <span class="detail-value"><span class="badge badge-status badge-<%= work.status %>"><%= work.status %></span></span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">描述</span>
+    <span class="detail-value"><%= work.description || '暂无描述' %></span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">创建时间</span>
+    <span class="detail-value"><%= work.created_at %></span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">更新时间</span>
+    <span class="detail-value"><%= work.updated_at %></span>
+  </div>
+  <div class="detail-actions">
+    <a href="/works/<%= work.id %>/edit" class="btn btn-warning">编辑</a>
+    <% if (work.status === '草稿') { %>
+      <a href="/copyrights/register?work_id=<%= work.id %>" class="btn btn-primary">登记版权</a>
+    <% } %>
+  </div>
+</div>
+<% } else { %>
+<div class="alert alert-error"><%= error || '作品不存在' %></div>
+<% } %>

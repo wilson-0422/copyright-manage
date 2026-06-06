@@ -1,0 +1,56 @@
+<div class="page-header">
+  <h2>收益管理</h2>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-number">&yen;<%= summary.totalRevenue.toLocaleString() %></div>
+    <div class="stat-label">已结算收益</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number">&yen;<%= summary.pendingRevenue.toLocaleString() %></div>
+    <div class="stat-label">待结算收益</div>
+  </div>
+</div>
+
+<h3>收益明细</h3>
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>作品名称</th>
+      <th>被授权方</th>
+      <th>分成比例</th>
+      <th>金额</th>
+      <th>周期</th>
+      <th>状态</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (revenues && revenues.length > 0) { %>
+      <% revenues.forEach(function(r) { %>
+        <tr>
+          <td><%= r.id %></td>
+          <td><%= r.work_title || '-' %></td>
+          <td><%= r.contract_licensee || '-' %></td>
+          <td><%= r.revenue_share ? (r.revenue_share * 100).toFixed(0) + '%' : '-' %></td>
+          <td>&yen;<%= r.amount.toLocaleString() %></td>
+          <td><%= r.period %></td>
+          <td><span class="badge badge-status badge-<%= r.status %>"><%= r.status %></span></td>
+          <td class="actions">
+            <% if (r.status === '待结算') { %>
+              <form action="/revenues/<%= r.id %>/settle" method="POST" style="display:inline">
+                <button type="submit" class="btn btn-sm btn-success">结算</button>
+              </form>
+            <% } else { %>
+              <span class="text-muted">已处理</span>
+            <% } %>
+          </td>
+        </tr>
+      <% }); %>
+    <% } else { %>
+      <tr><td colspan="8" class="empty-text">暂无收益数据</td></tr>
+    <% } %>
+  </tbody>
+</table>

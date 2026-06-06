@@ -1,0 +1,19 @@
+<header class="navbar">
+  <div class="navbar-inner">
+    <a href="/" class="navbar-brand">版权管理平台</a>
+    <nav class="navbar-nav">
+      <% if (typeof session !== 'undefined' && session && session.user) { %>
+        <a href="/dashboard" class="nav-link">控制台</a>
+        <a href="/works" class="nav-link">作品管理</a>
+        <a href="/copyrights" class="nav-link">版权管理</a>
+        <a href="/contracts" class="nav-link">合同管理</a>
+        <a href="/revenues" class="nav-link">收益管理</a>
+        <span class="nav-user">欢迎，<%= session.user.username %></span>
+        <a href="/auth/logout" class="nav-link nav-logout">退出</a>
+      <% } else { %>
+        <a href="/auth/login" class="nav-link">登录</a>
+        <a href="/auth/register" class="nav-link">注册</a>
+      <% } %>
+    </nav>
+  </div>
+</header>

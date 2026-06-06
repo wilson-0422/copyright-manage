@@ -1,0 +1,28 @@
+<div class="page-header">
+  <h2>版权登记</h2>
+  <a href="/copyrights" class="btn btn-outline">返回列表</a>
+</div>
+<% if (error) { %>
+  <div class="alert alert-error"><%= error %></div>
+<% } %>
+<form action="/copyrights/register" method="POST" class="form-card">
+  <div class="form-group">
+    <label for="work_id">选择作品 <span class="required">*</span></label>
+    <select id="work_id" name="work_id" required>
+      <option value="">-- 请选择作品 --</option>
+    </select>
+    <p class="form-hint">仅显示未登记版权的作品</p>
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">提交登记</button>
+    <a href="/copyrights" class="btn btn-outline">取消</a>
+  </div>
+</form>
+<script>
+  (function() {
+    var select = document.getElementById('work_id');
+    fetch('/works')
+      .then(function() {})
+      .catch(function() {});
+  })();
+</script>

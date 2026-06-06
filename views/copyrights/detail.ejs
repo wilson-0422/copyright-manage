@@ -1,0 +1,67 @@
+<div class="page-header">
+  <h2>版权详情</h2>
+  <a href="/copyrights" class="btn btn-outline">返回列表</a>
+</div>
+<% if (copyright) { %>
+<div class="detail-card">
+  <div class="detail-row">
+    <span class="detail-label">版权ID</span>
+    <span class="detail-value"><%= copyright.id %></span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">登记编号</span>
+    <span class="detail-value"><code><%= copyright.registration_number %></code></span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">作品名称</span>
+    <span class="detail-value"><%= copyright.work_title || '-' %></span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">作品类型</span>
+    <span class="detail-value"><span class="badge badge-type"><%= copyright.work_type || '-' %></span></span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">状态</span>
+    <span class="detail-value"><span class="badge badge-status badge-<%= copyright.status %>"><%= copyright.status %></span></span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">存证哈希</span>
+    <span class="detail-value"><code class="hash"><%= copyright.certificate_hash || '-' %></code></span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">登记日期</span>
+    <span class="detail-value"><%= copyright.registration_date %></span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">确权时间</span>
+    <span class="detail-value"><%= copyright.confirmed_at || '未确权' %></span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">审核人</span>
+    <span class="detail-value"><%= copyright.reviewer_name || '未审核' %></span>
+  </div>
+  <div class="detail-actions">
+    <% if (copyright.status === '待审核') { %>
+      <form action="/copyrights/<%= copyright.id %>/confirm" method="POST" style="display:inline">
+        <button type="submit" class="btn btn-success">确权通过</button>
+      </form>
+      <form action="/copyrights/<%= copyright.id %>/reject" method="POST" style="display:inline">
+        <button type="submit" class="btn btn-danger">驳回</button>
+      </form>
+    <% } %>
+  </div>
+</div>
+<% } else if (typeof traceMode !== 'undefined' && traceMode) { %>
+<div class="trace-section">
+  <h3>版权溯源</h3>
+  <form action="/copyrights/trace" method="GET" class="form-inline">
+    <input type="text" name="registration_number" placeholder="请输入登记编号" required>
+    <button type="submit" class="btn btn-primary">查询</button>
+  </form>
+  <% if (error) { %>
+    <div class="alert alert-error"><%= error %></div>
+  <% } %>
+</div>
+<% } else { %>
+<div class="alert alert-error"><%= error || '版权记录不存在' %></div>
+<% } %>

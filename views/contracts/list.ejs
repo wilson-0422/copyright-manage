@@ -1,0 +1,47 @@
+<div class="page-header">
+  <h2>合同管理</h2>
+  <a href="/contracts/create" class="btn btn-primary">创建合同</a>
+</div>
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>作品名称</th>
+      <th>被授权方</th>
+      <th>合同类型</th>
+      <th>分成比例</th>
+      <th>有效期</th>
+      <th>状态</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (contracts && contracts.length > 0) { %>
+      <% contracts.forEach(function(ct) { %>
+        <tr>
+          <td><%= ct.id %></td>
+          <td><%= ct.work_title || '-' %></td>
+          <td><%= ct.licensee %></td>
+          <td><%= ct.contract_type %></td>
+          <td><%= (ct.revenue_share * 100).toFixed(0) %>%</td>
+          <td><%= ct.start_date %> ~ <%= ct.end_date %></td>
+          <td><span class="badge badge-status badge-<%= ct.status %>"><%= ct.status %></span></td>
+          <td class="actions">
+            <a href="/contracts/<%= ct.id %>" class="btn btn-sm">查看</a>
+            <% if (ct.status === '草稿') { %>
+              <form action="/contracts/<%= ct.id %>/activate" method="POST" style="display:inline">
+                <button type="submit" class="btn btn-sm btn-success">激活</button>
+              </form>
+            <% } else if (ct.status === '生效中') { %>
+              <form action="/contracts/<%= ct.id %>/terminate" method="POST" style="display:inline" onsubmit="return confirm('确定要终止此合同吗？')">
+                <button type="submit" class="btn btn-sm btn-danger">终止</button>
+              </form>
+            <% } %>
+          </td>
+        </tr>
+      <% }); %>
+    <% } else { %>
+      <tr><td colspan="8" class="empty-text">暂无合同数据</td></tr>
+    <% } %>
+  </tbody>
+</table>

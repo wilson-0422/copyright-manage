@@ -1,0 +1,95 @@
+<div class="page-header">
+  <h2>控制台</h2>
+</div>
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-number"><%= totalWorks %></div>
+    <div class="stat-label">作品总数</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number"><%= totalCopyrights %></div>
+    <div class="stat-label">版权登记</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number"><%= totalContracts %></div>
+    <div class="stat-label">合同总数</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number">&yen;<%= revenueSummary.totalRevenue.toLocaleString() %></div>
+    <div class="stat-label">已结算收益</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number">&yen;<%= revenueSummary.pendingRevenue.toLocaleString() %></div>
+    <div class="stat-label">待结算收益</div>
+  </div>
+</div>
+
+<div class="dashboard-sections">
+  <div class="dashboard-section">
+    <h3>作品类型分布</h3>
+    <table class="data-table">
+      <thead><tr><th>类型</th><th>数量</th></tr></thead>
+      <tbody>
+        <% if (workStats.byType && workStats.byType.length > 0) { %>
+          <% workStats.byType.forEach(function(item) { %>
+            <tr><td><%= item.type %></td><td><%= item.count %></td></tr>
+          <% }); %>
+        <% } else { %>
+          <tr><td colspan="2" class="empty-text">暂无数据</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dashboard-section">
+    <h3>版权状态统计</h3>
+    <table class="data-table">
+      <thead><tr><th>状态</th><th>数量</th></tr></thead>
+      <tbody>
+        <% if (copyrightStats && copyrightStats.length > 0) { %>
+          <% copyrightStats.forEach(function(item) { %>
+            <tr><td><span class="badge badge-status badge-<%= item.status %>"><%= item.status %></span></td><td><%= item.count %></td></tr>
+          <% }); %>
+        <% } else { %>
+          <tr><td colspan="2" class="empty-text">暂无数据</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dashboard-section">
+    <h3>合同状态统计</h3>
+    <table class="data-table">
+      <thead><tr><th>状态</th><th>数量</th></tr></thead>
+      <tbody>
+        <% if (contractStats && contractStats.length > 0) { %>
+          <% contractStats.forEach(function(item) { %>
+            <tr><td><span class="badge badge-status badge-<%= item.status %>"><%= item.status %></span></td><td><%= item.count %></td></tr>
+          <% }); %>
+        <% } else { %>
+          <tr><td colspan="2" class="empty-text">暂无数据</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dashboard-section">
+    <h3>即将到期合同（30天内）</h3>
+    <table class="data-table">
+      <thead><tr><th>作品</th><th>被授权方</th><th>到期日</th></tr></thead>
+      <tbody>
+        <% if (expiringContracts && expiringContracts.length > 0) { %>
+          <% expiringContracts.forEach(function(ct) { %>
+            <tr>
+              <td><%= ct.work_title || '-' %></td>
+              <td><%= ct.licensee %></td>
+              <td><%= ct.end_date %></td>
+            </tr>
+          <% }); %>
+        <% } else { %>
+          <tr><td colspan="3" class="empty-text">暂无即将到期合同</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
